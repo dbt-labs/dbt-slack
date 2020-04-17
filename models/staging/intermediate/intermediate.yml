@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: slack__flattened_replies
+    description: >
+      Flatten the array in the replies column into their own records.
+      Exclude the first record since this is the parent message.
+
+    columns:
+      - name: message_id
+        tests:
+          - unique
+          - not_null
+
+  - name: slack_all_messages
+    description: >
+      Union together the current messages (which don't include threads) with
+      the flattened threads. Then union with historical messages, making sure
+      there's no overlap between the two data sources.

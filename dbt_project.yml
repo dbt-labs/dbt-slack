@@ -2,3 +2,10 @@ name: 'slack'
 version: '1.0.0'
 
 profile: 'default'
+
+models:
+  slack:
+    vars:
+      src_slack__messages: "{{ source('slack', 'messages') }}"
+      src_slack__users: "{{ source('slack', 'users') }}"
+      src_slack__channels: "{{ source('slack', 'channels') }}"

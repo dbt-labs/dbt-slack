@@ -1,0 +1,74 @@
+version: 2
+
+sources:
+  - name: slack
+    database: raw
+    loaded_at_field: _sdc_batched_at
+
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+
+    tables:
+      - name: channels
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+
+      - name: messages
+        description: "{{ doc('src_slack__messages') }}"
+        tests:
+          - unique_column_combination:
+              columns:
+                - ts
+                - channel_id
+        columns:
+          - name: ts
+            description: >
+              Seconds since epoch. This timestamp is unique to a message within
+              a channel.
+            tests:
+              - not_null
+
+          - name: channel_id
+            tests:
+              - not_null
+
+          - name: type
+            tests:
+              - accepted_values:
+                  values: [message]
+
+          - name: subtype
+            description: Note that a NULL value means the message is a normal message.
+            tests:
+              - accepted_values:
+                  values:
+                  - bot_add
+                  - bot_message
+                  - channel_archive
+                  - channel_join
+                  - channel_leave
+                  - channel_name
+                  - channel_purpose
+                  - channel_topic
+                  - file_comment
+                  - me_message
+                  - pinned_item
+                  - slackbot_response
+                  - thread_broadcast
+                  - tombstone
+
+          - name: replies
+            description: >
+              Array of replies. The first item in the array is the
+              original message.
+
+      - name: users
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
