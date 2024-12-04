@@ -1,3 +1,15 @@
+# ***Archival Notice***
+This repository has been archived.
+
+As a result all of its historical issues and PRs have been closed.
+
+Please *do not clone* this repo without understanding the risk in doing so:
+- It may have unaddressed security vulnerabilities
+- It may have unaddressed bugs
+
+<details>
+   <summary>Click for historical readme</summary>
+
 # dbt-slack
 A package for sourcing and transforming data from the slack tap
 
@@ -17,9 +29,9 @@ A package for sourcing and transforming data from the slack tap
       models:
         slack:
           vars:
-            src_slack__messages: "{{ ref('unioned_slack_messages') }}" # update this with the correct `ref` or `source`
-            src_slack__users: "{{ source('slack', 'users') }}"
-            src_slack__channels: "{{ source('slack', 'channels') }}"
+            src_slack__messages: &quot;{{ ref('unioned_slack_messages') }}&quot; # update this with the correct `ref` or `source`
+            src_slack__users: &quot;{{ source('slack', 'users') }}&quot;
+            src_slack__channels: &quot;{{ source('slack', 'channels') }}&quot;
 
       ```
 
@@ -33,3 +45,4 @@ A package for sourcing and transforming data from the slack tap
 ### Pending release of v0.17.0
 - [ ] Add source vars for schema and database
 - [ ] Add instructions for enabling and disabling package sources
+
